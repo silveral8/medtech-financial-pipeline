@@ -1,0 +1,79 @@
+# Mac system files
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+
+# Environment & secrets
+.env
+.env.*
+*.env
+config.ini
+secrets.ini
+credentials.ini
+*.key
+*.pem
+
+# Anaconda / virtual environments
+.conda/
+conda-meta/
+envs/
+.venv/
+venv/
+ENV/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+*.ipynb
+
+# Personal & sensitive documents
+*.pdf
+*.pages
+*.docx
+*.xlsx
+*.numbers
+*.keynote
+
+# Database files
+*.sql.bak
+*.dump
+*.sqlite
+*.db
+
+# Logs
+*.log
+logs/
+
+# OS generated
+Icon?
+.directory
