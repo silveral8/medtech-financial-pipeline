@@ -75,5 +75,12 @@ Set up GitHub repo properly with .gitignore.
 Started drafting README and DATA_DICTIONARY.
 Next step: build unified gross profit view using CASE statement.
 
-## June 11 — Project roadmap
+## June 11 — Project roadmap & Built unified gross profit view
 Started drafting project ROADMAP.
+View handles both GrossProfit tag and Revenue minus COGS calculation
+gp_method column flags which method was used per ticker
+ALL 19 tickers returning clearn data witn no NULLs
+Found two anomalies to investigate: SKY 2024 showing 14,440 vs normal 3,700-4,600
+range, likely the 11 duplicate rows issue
+BAX 2024 showing 3,984 vs 959 from earlier query, needs investigation
+GMED correctly flips from direct to calculated after 2023 post merger
