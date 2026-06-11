@@ -72,5 +72,8 @@ Ready to build unified gross profit view.
 Reorganized project folder structure.
 Moved scripts to scripts/, SQL files to queries/.
 Set up GitHub repo properly with .gitignore.
-Started drafting README, DATA_DICTIONARY, EXPLORATION_LOG.
+Started drafting README and DATA_DICTIONARY.
 Next step: build unified gross profit view using CASE statement.
+
+## June 11 — Project roadmap
+Started drafting project ROADMAP.
