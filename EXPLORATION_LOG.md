@@ -84,3 +84,15 @@ Found two anomalies to investigate: SKY 2024 showing 14,440 vs normal 3,700-4,60
 range, likely the 11 duplicate rows issue
 BAX 2024 showing 3,984 vs 959 from earlier query, needs investigation
 GMED correctly flips from direct to calculated after 2023 post merger
+
+## June 21-22 SYK, BAX, EW anomaly investigation
+Discovered SYK, BAX, and EW tag quarterly cumulative values as FY in their 
+XBRL filings. THis caused our view to pull incorrect values.
+Confirmed using distinct_period_ends query - these three tickers show 
+9 distinct period_end dates vs normal 3 for the other tickers.
+Fix: replaced fiscal_year column with EXTRACT(YEART FROM period_end) 
+and added December 31 filter to all subqueries in the view.
+Also added value DESC as tiebreaker to pick largest valye per date.
+SYK now fixed and returning clean values. EW 2024 still showing wrong
+value (1,093 vs excepted ~4,322). ISRG 2021 looks suspicious - 
+investigate next session
