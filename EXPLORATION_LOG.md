@@ -85,7 +85,7 @@ range, likely the 11 duplicate rows issue
 BAX 2024 showing 3,984 vs 959 from earlier query, needs investigation
 GMED correctly flips from direct to calculated after 2023 post merger
 
-## June 21-22 SYK, BAX, EW anomaly investigation
+## June 21-22 - SYK, BAX, EW anomaly investigation
 Discovered SYK, BAX, and EW tag quarterly cumulative values as FY in their 
 XBRL filings. THis caused our view to pull incorrect values.
 Confirmed using distinct_period_ends query - these three tickers show 
@@ -96,3 +96,13 @@ Also added value DESC as tiebreaker to pick largest valye per date.
 SYK now fixed and returning clean values. EW 2024 still showing wrong
 value (1,093 vs excepted ~4,322). ISRG 2021 looks suspicious - 
 investigate next session
+
+## June 23 - EW and ISRG anomaly investigation
+Isolated EW gross profit issue to the FULL OUTER JOIN with COGS subquery.
+EW reports both GrossProfit directly and CostOfGoodsAndServicesSold.
+When all three subqueries join, CASE statement sometimes pick
+calculated method instead of direct GrossProfit tag.
+
+Fix needed: add priority rule to CASE statement so direct GrossProfit
+always wins when available, regardless of COGS presence.
+ISRG has same pattern - investigate alongside EW fix next session.
