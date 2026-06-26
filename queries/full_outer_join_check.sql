@@ -1,25 +1,9 @@
-CREATE OR REPLACE VIEW medtech_gross_profit AS
-SELECT
+SELECT 
     COALESCE(gp.ticker, rev.ticker, cogs.ticker) AS ticker,
     COALESCE(gp.true_year, rev.true_year, cogs.true_year) AS fiscal_year,
-    CASE
-        WHEN gp.value IS NOT NULL THEN gp.value
-        WHEN rev.value IS NOT NULL AND cogs.value IS NOT NULL 
-            THEN rev.value - cogs.value
-        ELSE NULL
-    END AS gross_profit,
-    CASE
-        WHEN gp.value IS NOT NULL THEN gp.value / 1000000.0
-        WHEN rev.value IS NOT NULL AND cogs.value IS NOT NULL 
-            THEN (rev.value - cogs.value) / 1000000.0
-        ELSE NULL
-    END AS gross_profit_millions,
-    CASE
-        WHEN gp.value IS NOT NULL THEN 'direct'
-        WHEN rev.value IS NOT NULL AND cogs.value IS NOT NULL 
-            THEN 'calculated'
-        ELSE 'unavailable'
-    END AS gp_method
+    gp.value / 1000000.0 AS gp_value,
+    rev.value / 1000000.0 AS rev_value,
+    cogs.value / 1000000.0 AS cogs_value
 FROM
     (SELECT DISTINCT ON (ticker, EXTRACT(YEAR FROM period_end))
         ticker,
@@ -27,6 +11,7 @@ FROM
         value
      FROM apple_facts
      WHERE concept = 'us-gaap:GrossProfit'
+     AND ticker = 'EW'
      AND fiscal_period = 'FY'
      AND unit = 'USD'
      AND EXTRACT(MONTH FROM period_end) = 12
@@ -41,6 +26,7 @@ FULL OUTER JOIN
      WHERE concept IN (
          'us-gaap:Revenues',
          'us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax')
+     AND ticker = 'EW'
      AND fiscal_period = 'FY'
      AND unit = 'USD'
      AND EXTRACT(MONTH FROM period_end) = 12
@@ -54,10 +40,13 @@ FULL OUTER JOIN
         value
      FROM apple_facts
      WHERE concept = 'us-gaap:CostOfGoodsAndServicesSold'
+     AND ticker = 'EW'
      AND fiscal_period = 'FY'
      AND unit = 'USD'
      AND EXTRACT(MONTH FROM period_end) = 12
      AND EXTRACT(DAY FROM period_end) = 31
      ORDER BY ticker, EXTRACT(YEAR FROM period_end) DESC, value DESC) cogs
 USING (ticker, true_year)
-ORDER BY ticker, fiscal_year DESC;
+WHERE COALESCE(gp.true_year, rev.true_year, cogs.true_year) 
+    BETWEEN 2021 AND 2025
+ORDER BY fiscal_year DESC;

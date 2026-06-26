@@ -106,3 +106,14 @@ calculated method instead of direct GrossProfit tag.
 Fix needed: add priority rule to CASE statement so direct GrossProfit
 always wins when available, regardless of COGS presence.
 ISRG has same pattern - investigate alongside EW fix next session.
+
+## June 25-26 - Discovered non-December fiscal year end problem
+December 31 filter in gross profit view is excluding four tickers:
+- AAPL: fiscal year ends in Septemeber
+- MDT: fiscal year ends in April
+- RMD: fiscal year ends in June 30
+- ILMN: fiscal year straddles late December/early January
+
+Need to rebuild view using dominant period_end date per ticker
+instead of hardcoded December 31 filter.
+EW fix confirmed working after DROP and recreate.
