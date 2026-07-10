@@ -117,3 +117,23 @@ December 31 filter in gross profit view is excluding four tickers:
 Need to rebuild view using dominant period_end date per ticker
 instead of hardcoded December 31 filter.
 EW fix confirmed working after DROP and recreate.
+
+## July 10 - Rebuilt gross profit view with dynamic fiscaly year and CTE
+Discovered old view was still running despite CREATE or REPLACE.
+Had to DROP VIEW and recreate to force new definition.
+Confirmed via SELECT definition FROM pg-views.
+
+Rebuilt view using CTE approach with fiscal_year_ends subquery
+that dynamically identifies each ticker's dominant fiscal month
+instead of hardcoding December 31.
+
+Fixed tickers:
+- APPL now showing correctly using September fiscal year end
+- MDT now showing correctly using April fiscal year end
+- RMD now showing correctly using June fiscal year end
+- ILMN partially fixed, showing 2023-2025, missing 2021-2022
+
+Remaining issues to investigate next session:
+- SKY still showing inflated values (16,065 and 14,440)
+- ILMN missing 2021 and 2022
+- ABT missing entirely
