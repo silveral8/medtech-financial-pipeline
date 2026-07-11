@@ -137,3 +137,18 @@ Remaining issues to investigate next session:
 - SKY still showing inflated values (16,065 and 14,440)
 - ILMN missing 2021 and 2022
 - ABT missing entirely
+
+## July 10 - Swithced fiscal_year_ends CTE to use NetIncomeLoss
+Changed dominanat month detection from us-gaap:GrossProfit to
+us-gaap:NetIncomeLoss since all tickers report net income.
+This fxed ABT which had equal row counts across all months
+when using GrossProfit, causing wrong dominant month selection.
+
+Fixed this session:
+- ABT now showing correctly with caluculated method
+- ALL previously fixed tickers still clean
+
+Remaining issues:
+- SYK still showing inflated values (16,065 and 14,440)
+-ILMN missing 2021 and 2022
+- BSX missing entirely

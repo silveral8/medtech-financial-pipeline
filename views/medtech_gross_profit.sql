@@ -11,7 +11,7 @@ WITH fiscal_year_ends AS (
                    ORDER BY COUNT(*) DESC
                ) as rn
         FROM apple_facts
-        WHERE concept = 'us-gaap:GrossProfit'
+        WHERE concept = 'us-gaap:NetIncomeLoss'
         AND fiscal_period = 'FY'
         AND unit = 'USD'
         GROUP BY ticker, EXTRACT(MONTH FROM period_end)
